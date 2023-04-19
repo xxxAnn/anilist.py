@@ -1,0 +1,1 @@
+TOKEN_URI = "https://anilist.co/api/v2/oauth/token"

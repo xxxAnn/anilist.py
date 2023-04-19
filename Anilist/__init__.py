@@ -1,0 +1,1 @@
+from Anilist.auth.auth import Auth
