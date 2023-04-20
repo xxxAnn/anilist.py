@@ -19,6 +19,21 @@ def construct_query(schs: list[Scheme]):
     
     return temp
 
+def construct_query_as_string(d, ss=""):
+    print(d)
+    if type(d) != dict:
+        return str(d)
+    s = ""
+    for k, v in d.items():
+        if v == {}:
+            s = f"{s}{ss}{k}\n"
+        else:
+            t = construct_query_as_string(v, f'{ss}  ')
+            t = t[0:-1]
+            s = f"{s}{ss}{k} {{\n{t}\n{ss}}}\n"
+    
+    return s
+
 def get_numbers_up_to(i):
     l = []
     n = i
