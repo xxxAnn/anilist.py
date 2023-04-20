@@ -1,5 +1,5 @@
 import json
-import Anilist
+from src import Anilist
 
 query_client = Anilist.QueryClient()
 

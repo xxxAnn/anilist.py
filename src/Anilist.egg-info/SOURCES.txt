@@ -1,0 +1,16 @@
+pyproject.toml
+src/Anilist/__init__.py
+src/Anilist/client.py
+src/Anilist/consts.py
+src/Anilist/obj.py
+src/Anilist.egg-info/PKG-INFO
+src/Anilist.egg-info/SOURCES.txt
+src/Anilist.egg-info/dependency_links.txt
+src/Anilist.egg-info/top_level.txt
+src/Anilist/auth/auth.py
+src/Anilist/auth/code.py
+src/Anilist/auth/token.py
+src/Anilist/mutation/__init__.py
+src/Anilist/mutation/media_list.py
+src/Anilist/query/__init__.py
+src/Anilist/query/media_list.py
