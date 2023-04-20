@@ -29,6 +29,7 @@ def get_code(client_id):
         conn.close()
 
         try:
-            return pat.findall(data.decode('utf-8'))[0][0]
+            code = pat.findall(data.decode('utf-8'))[0][0]
+            return code
         except:
             break

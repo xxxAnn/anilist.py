@@ -14,6 +14,10 @@ class Auth:
     def __gen_token(self):
         self.__token = get_token(self.__id, self.__secret)
 
+    @property
+    def token(self):
+        return self.__token
+
     @classmethod
     def from_config_object(cls, config):
         return cls(config["ID"], config["SECRET"])

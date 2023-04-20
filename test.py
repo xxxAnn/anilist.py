@@ -1,4 +1,6 @@
 import json
 import Anilist
 
-auth = Anilist.Auth.from_config_file("config.json")
+query_client = Anilist.QueryClient()
+
+print(query_client.media_list(username="xxxAnn", languages=["romaji", "english"]).entries)
