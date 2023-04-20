@@ -22,7 +22,7 @@ class MediaListQuery:
                     media {
                         id
                         title {
-                            --REP--
+                            {0}
                         }
                         coverImage {
                             extraLarge
@@ -33,7 +33,7 @@ class MediaListQuery:
                 }
             }
         }
-        """.replace("--REP--", '\n'.join(self._languages))
+        """.format('\n'.join(self._languages))
 
         vars = {
             "usr": self._username,
