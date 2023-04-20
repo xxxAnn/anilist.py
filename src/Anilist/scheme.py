@@ -3,8 +3,16 @@ class Scheme:
         self._layers = []
 
     def __getattr__(self, k):
+        return self[k]
+    
+    def __getitem__(self, k):
         self._layers.append(k)
         return self
+    
+    @classmethod
+    def _construct(cls, *sch):
+        return construct_query_as_string(construct_query(list(sch)))
+
     
 def construct_query(schs: list[Scheme]):
     temp = {}
@@ -20,7 +28,6 @@ def construct_query(schs: list[Scheme]):
     return temp
 
 def construct_query_as_string(d, ss=""):
-    print(d)
     if type(d) != dict:
         return str(d)
     s = ""
@@ -33,6 +40,7 @@ def construct_query_as_string(d, ss=""):
             s = f"{s}{ss}{k} {{\n{t}\n{ss}}}\n"
     
     return s
+
 
 def get_numbers_up_to(i):
     l = []
