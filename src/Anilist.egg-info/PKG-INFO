@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: Anilist
-Version: 0.1.0
+Version: 0.2.0
 Summary: Anilist API wrapper
 Author-email: Ann Mauduy-Decius <ann.mauduy.decius@gmail.com>
 Project-URL: Homepage, https://github.com/xxxAnn/Anilist.py
@@ -10,3 +10,6 @@ Classifier: License :: OSI Approved :: MIT License
 Classifier: Operating System :: OS Independent
 Requires-Python: >=3.10
 Description-Content-Type: text/markdown
+License-File: LICENSE
+
+I'll do a documentation one day, probably!
