@@ -1,3 +1,4 @@
+README.md
 pyproject.toml
 src/Anilist/__init__.py
 src/Anilist/client.py
