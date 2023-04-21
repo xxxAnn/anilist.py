@@ -13,6 +13,9 @@ class AnilistObject:
     def __getattr__(self, k):
         return self.__dict[k]
     
+    def __getitem__(self, k):
+        return self.__dict[k]
+    
     def __str__(self):
         return str(self.__dict)
     

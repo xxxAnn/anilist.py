@@ -7,17 +7,19 @@ class AnilistType:
                 return AnilistString(None)
             if type(v) is int:
                 return AnilistInt(None)
-            if issubclass(v, AnilistType):
+            if isinstance(v, AnilistType):
                 return v
         else:
             return super().__new__(cls)
 
     def __str__(self):
-        print(self.__class__)
         return self.__class__.ANILIST_TYPE_NAME
     
     def __repr__(self):
         return str(self)
+    
+    def get_inner(self):
+        return None
 
 class AnilistString(AnilistType):
     
@@ -26,4 +28,15 @@ class AnilistString(AnilistType):
 class AnilistInt(AnilistType):
 
     ANILIST_TYPE_NAME = "Int"
+
+class AnilistMediaType(AnilistType):
+    
+    ANILIST_TYPE_NAME = "MediaType"
+
+    def __init__(self, s):
+        self._inner = s
+
+    def get_inner(self):
+        return self._inner
+    
 

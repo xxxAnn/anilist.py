@@ -8,10 +8,31 @@ class Client:
     URI = consts.API_URI
     DEFAULT_HEADERS = consts.DEFAULT_HEADERS
 
-    def __init__(self, auth, level):
+    def __init__(self, auth, level, max_pages=100):
         self._auth = auth
         self._headers = None
+        self._max = max_pages
         _ = AnilistLogger(level)
+
+    def _page_request(self, query, vars, k, f=lambda x: x):        
+        vals = vars._json
+        pg = vals["page"]
+
+        temp = []
+
+        while pg <= self._max:
+            resp = self._request(query, vars=vals)
+            data = ([f(v) for v in resp.Page[k]])
+
+            temp.extend(data)
+
+            if data == []:
+                break
+
+            pg += 1
+            vals["page"] = pg
+
+        return temp
 
     def _request(self, query, vars):
 
@@ -36,8 +57,13 @@ class Client:
         
     def _create_query(self, vars, *schs, head_sch=None):
         schs = list(schs) if head_sch is None else [Scheme._combine(head_sch, sch) for sch in schs]
-
-        query = """
+        if vars._names == "":
+            return """
+            {} {{
+                {}
+            }}
+            """.format(self._query_type(), Scheme._construct(*schs))
+        return """
             {} ({}) {{
                 {}
             }}

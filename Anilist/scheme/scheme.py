@@ -17,6 +17,18 @@ class Scheme:
             self._up[self._layers[-1]] = f"{self._layers[-1]} ({', '.join([f'{k}: {v}' for k, v in d.items()])})"
         return self
     
+    def _replace_head(self, pat, r):
+        self._layers[0] = str(self._layers[0]).replace(pat, r)
+        tch = []
+        for k, v in self._up.items():
+            if k == pat:
+                tch.append(k)
+
+        for k in tch:
+            self._up[r] = str(self._up.pop(k)).replace(pat, r)
+
+        return self
+    
     @classmethod
     def _construct(cls, *schs):
         d = {k: v for sch in schs for k, v in sch._up.items()}

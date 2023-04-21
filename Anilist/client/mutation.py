@@ -6,8 +6,8 @@ import logging
 
 class MutationClient(Client):
 
-    def __init__(self, auth: Auth, level=logging.INFO):
-        Client.__init__(self, auth, level)
+    def __init__(self, auth: Auth, level=logging.INFO, **kwargs):
+        Client.__init__(self, auth, level, **kwargs)
     
     def _query_type(self):
         return "mutation"

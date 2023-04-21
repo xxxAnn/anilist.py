@@ -1,6 +1,7 @@
     
 from Anilist.client import Client
-from Anilist.query.media_list import MediaListQuery
+from Anilist.query import MediaEntryQuery
+from Anilist.query import MediaListQuery
 
 import logging
 
@@ -8,8 +9,8 @@ from Anilist.vars.vars import Vars
 
 class QueryClient(Client):
 
-    def __init__(self, level=logging.INFO):
-        Client.__init__(self, None, level)
+    def __init__(self, level=logging.INFO, **kwargs):
+        Client.__init__(self, None, level, **kwargs)
 
     def _query_type(self):
         return "query"
@@ -23,3 +24,6 @@ class QueryClient(Client):
             languages=languages, 
             sizes=sizes
         )
+    
+    def media_entry(self, *, languages=["english"], sizes=["extraLarge"]):
+        return MediaEntryQuery(client=self, languages=languages, sizes=sizes)
