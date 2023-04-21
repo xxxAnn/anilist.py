@@ -1,5 +1,5 @@
 import requests
-import Anilist.consts as consts
+import Anilist.utils.consts as consts
 from Anilist.auth.code import get_code
 
 def get_token(client_id, client_secret):

@@ -1,5 +1,3 @@
-import json
-
 class AnilistObject:
     
     def __init__(self, json_object):

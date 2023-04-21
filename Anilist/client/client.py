@@ -1,10 +1,8 @@
 import requests, logging
 
-from Anilist import Auth, consts
 from Anilist.mutation.media_list import MediaEntryMutable
-from Anilist.object import AnilistObject
+from Anilist.utils import AnilistObject, AnilistLogger, consts
 from Anilist.query.media_list import MediaListQuery
-from Anilist.logging import AnilistLogger
 
 class Client:
 

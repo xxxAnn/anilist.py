@@ -1,4 +1,5 @@
 class Scheme:
+
     def __init__(self):
         self._layers = []
         self._up = {}
@@ -20,7 +21,8 @@ class Scheme:
     def _construct(cls, *schs):
         return construct_query_as_string(construct_query(list(schs)), [sch._up for sch in schs])
     
-    
+REPLACE = "__SPECIAL_KEY_REPLACE__"
+
 def construct_query(schs: list[Scheme]):
     temp = {}
 
@@ -35,7 +37,6 @@ def construct_query(schs: list[Scheme]):
     
     return temp
 
-REPLACE = "__SPECIAL_KEY_REPLACE__"
 
 def construct_query_as_string(d, l, ss=""):
     if type(d) != dict:
@@ -73,9 +74,3 @@ def get_nest_list(n, l, m, sch):
         prev = prev[sch[m-i]]
     return prev
     
-    # a b e
-    # a d v
-class MediaScheme(Scheme):
-    def __init__(self):
-        super().__init__()
-        self._layers.append("media")
