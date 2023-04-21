@@ -64,4 +64,4 @@ class MediaListQuery:
         self._media_entries = temp
 
     def _base_query(self):
-        self.query(default=True)
+        self.query()
