@@ -35,23 +35,25 @@ def construct_query(schs: list[Scheme]):
     
     return temp
 
+REPLACE = "__SPECIAL_KEY_REPLACE__"
+
 def construct_query_as_string(d, l, ss=""):
     if type(d) != dict:
         return str(d)
     s = ""
     for k, v in d.items():
         if v == {}:
-            s = f"{s}{ss}__SPECIAL_KEY__{k}\n"
+            s = f"{s}{ss}{REPLACE}{k}\n"
         else:
             t = construct_query_as_string(v, l, f'{ss}  ')
             t = t[0:-1]
-            s = f"{s}{ss}__SPECIAL_KEY__{k} {{\n{t}\n{ss}}}\n"
+            s = f"{s}{ss}{REPLACE}{k} {{\n{t}\n{ss}}}\n"
 
     if ss == "":
         for dic in l:
             for k, v in dic.items():
-                s = s.replace(f"__SPECIAL_KEY__{k}", f"{v}")
-        s = s.replace("__SPECIAL_KEY__", "")
+                s = s.replace(f"{REPLACE}{k}", f"{v}")
+        s = s.replace(f"{REPLACE}", "")
 
     return s
 

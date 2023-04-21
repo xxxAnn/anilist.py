@@ -1,6 +1,6 @@
 import requests, logging
 
-from Anilist import Auth
+from Anilist import Auth, consts
 from Anilist.mutation.media_list import MediaEntryMutable
 from Anilist.obj import AnilistObject
 from Anilist.query.media_list import MediaListQuery
@@ -8,11 +8,8 @@ from Anilist.logging import AnilistLogger
 
 class Client:
 
-    URI = "https://graphql.anilist.co"
-    DEFAULT_HEADERS = {
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-    }
+    URI = consts.API_URI
+    DEFAULT_HEADERS = consts.DEFAULT_HEADERS
 
     def __init__(self, auth, level):
         self._auth = auth
