@@ -19,10 +19,17 @@ class Scheme:
     
     @classmethod
     def _construct(cls, *schs):
-        return construct_query_as_string(construct_query(list(schs)), [sch._up for sch in schs])
+        d = {k: v for sch in schs for k, v in sch._up.items()}
+        print(d)
+        return construct_query_as_string(construct_query(list(schs)), d)
     
-REPLACE = "__SPECIAL_KEY_REPLACE__"
-
+    @classmethod
+    def _combine(cls, scha, schb):
+        n = cls()
+        n._layers = scha._layers + schb._layers
+        n._up = scha._up | schb._up
+        return n
+    
 def construct_query(schs: list[Scheme]):
     temp = {}
 
@@ -41,20 +48,17 @@ def construct_query(schs: list[Scheme]):
 def construct_query_as_string(d, l, ss=""):
     if type(d) != dict:
         return str(d)
+    
     s = ""
+
     for k, v in d.items():
+        nk = k if k not in l else l[k]
         if v == {}:
-            s = f"{s}{ss}{REPLACE}{k}\n"
+            s = f"{s}{ss}{nk}\n"
         else:
             t = construct_query_as_string(v, l, f'{ss}  ')
             t = t[0:-1]
-            s = f"{s}{ss}{REPLACE}{k} {{\n{t}\n{ss}}}\n"
-
-    if ss == "":
-        for dic in l:
-            for k, v in dic.items():
-                s = s.replace(f"{REPLACE}{k}", f"{v}")
-        s = s.replace(f"{REPLACE}", "")
+            s = f"{s}{ss}{nk} {{\n{t}\n{ss}}}\n"
 
     return s
 
