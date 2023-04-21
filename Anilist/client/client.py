@@ -1,4 +1,5 @@
 import requests, logging
+from Anilist.scheme.scheme import Scheme
 
 from Anilist.utils import AnilistObject, AnilistLogger, consts
 from Anilist.errors import RequestError
@@ -32,7 +33,20 @@ class Client:
         
         obj = AnilistObject(resp["data"])
         return obj
+        
+    def _create_query(self, vars, *schs, head_sch=None):
+        schs = list(schs) if head_sch is None else [Scheme._combine(head_sch, sch) for sch in schs]
 
+        query = """
+            {} ({}) {{
+                {}
+            }}
+        """.format(self._query_type(), vars._names, Scheme._construct(*schs))
+
+        return query
+    
+    def _query_type(self):
+        return "null"
     
     @property
     def headers(self):

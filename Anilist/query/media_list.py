@@ -1,4 +1,5 @@
 from Anilist.scheme import MediaScheme, Scheme
+from Anilist.vars.vars import Vars
 class MediaListQuery:
     
     def __init__(self, client, username: str, per_page: int=10, starting_page: int = 1, languages=["english"], sizes=["extraLarge"]):
@@ -14,7 +15,8 @@ class MediaListQuery:
             *[MediaScheme().title[lang] for lang in self._languages], 
             *[MediaScheme().coverImage[size] for size in self._sizes]
         ]
-        # load a few important values
+        self.DEFAULT_VARS = Vars(usr=self._username, page=self._starting_page, perPage=self._per_page)
+        # load default values
         self._base_query()
 
     @property
@@ -30,27 +32,19 @@ class MediaListQuery:
         return self._query(*schs)
     
     def _query(self, *schs):
-        query = """
-        query ($usr: String, $page: Int, $perPage: Int) {{
-            Page (page: $page, perPage: $perPage) {{
-                mediaList (userName: $usr) {{
-                    {0}
-                }}
-            }}
-        }}
-        """.format(Scheme._construct(*schs))
 
-        vars = {
-            "usr": self._username,
-            "page": self._starting_page,
-            "perPage": self._per_page
-        }
+        head_sch = Scheme().Page(page="$page", perPage="$perPage").mediaList(userName="$usr")
+
+        query = self._client._create_query(self.DEFAULT_VARS, *schs, head_sch=head_sch)
 
         pg = self._starting_page
+        
+        vals = self.DEFAULT_VARS._json
+
         temp = []
 
         while True:
-            resp = self._client._request(query, vars=vars)
+            resp = self._client._request(query, vars=vals)
             data = ([v.media for v in resp.Page.mediaList])
 
             temp.extend(data)
@@ -59,7 +53,7 @@ class MediaListQuery:
                 break
 
             pg += 1
-            vars["page"] = pg
+            vals["page"] = pg
 
         self._media_entries = temp
 

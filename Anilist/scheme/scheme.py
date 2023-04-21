@@ -20,7 +20,6 @@ class Scheme:
     @classmethod
     def _construct(cls, *schs):
         d = {k: v for sch in schs for k, v in sch._up.items()}
-        print(d)
         return construct_query_as_string(construct_query(list(schs)), d)
     
     @classmethod
