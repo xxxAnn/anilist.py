@@ -8,6 +8,9 @@ import logging
 from Anilist.vars.vars import Vars
 
 class QueryClient(Client):
+    """
+    A hub that creates various interfaces that interact with the Anilist API
+    """
 
     def __init__(self, level=logging.INFO, **kwargs):
         """
