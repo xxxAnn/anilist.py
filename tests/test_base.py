@@ -15,11 +15,17 @@ class BaseTest(TestCase):
     def test_query(self):
         q = QueryClient(max_pages=10)
 
-        list_query = q.media_list(per_page=100)
+        list_query = q.media_list()
         list_query.search(
+            # Fields to Query
             mediaScheme().coverImage.medium,
+            
+            # Search settings
+            
+            per_page = 100,
+            paginate = True, 
 
-            paginate=True, 
+            # Query parameters
             userName="xxxAnn"
         )
 
