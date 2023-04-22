@@ -35,7 +35,7 @@ class Query:
         if not paginate:
 
             q = self._client._create_query(vars, *schs, head_sch=head_sch)
-            resp = self._client._request(q, vars._json)
+            resp = self._client._request(q, vars)
 
             r.append(resp.Media)
 

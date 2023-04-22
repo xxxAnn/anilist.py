@@ -7,6 +7,8 @@ class AnilistType:
                 return AnilistString(None)
             if type(v) is int:
                 return AnilistInt(None)
+            if type(v) is float:
+                return AnilistFloat(None)
             if isinstance(v, AnilistType):
                 return v
         else:
@@ -28,6 +30,10 @@ class AnilistString(AnilistType):
 class AnilistInt(AnilistType):
 
     ANILIST_TYPE_NAME = "Int"
+
+class AnilistFloat(AnilistType):
+
+    ANILIST_TYPE_NAME = "Float"
 
 class AnilistMediaType(AnilistType):
     

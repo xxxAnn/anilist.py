@@ -3,6 +3,7 @@ from Anilist.scheme.scheme import Scheme
 
 from Anilist.utils import AnilistObject, AnilistLogger, consts
 from Anilist.errors import RequestError
+from Anilist.vars.vars import Vars
 class Client:
 
     URI = consts.API_URI
@@ -14,14 +15,13 @@ class Client:
         self._max = max_pages
         _ = AnilistLogger(level)
 
-    def _page_request(self, query, vars, k, f=lambda x: x):        
-        vals = vars._json
-        pg = vals["page"]
+    def _page_request(self, query, vars: Vars, k, f=lambda x: x):        
+        pg = vars._json["page"]
 
         temp = []
 
         while pg <= self._max:
-            resp = self._request(query, vars=vals)
+            resp = self._request(query, vars)
             data = ([f(v) for v in resp.Page[k]])
 
             temp.extend(data)
@@ -30,11 +30,11 @@ class Client:
                 break
 
             pg += 1
-            vals["page"] = pg
+            vars.update("page", pg)
 
         return temp
 
-    def _request(self, query, vars):
+    def _request(self, query, vars: Vars):
 
         log = AnilistLogger()
         log.info(f"Sending request to URI {self.URI} with headers {self.headers}")
@@ -42,7 +42,7 @@ class Client:
         
         req = requests.post(self.URI, json={
             "query": query,
-            "variables": vars,
+            "variables": vars._json,
         }, headers = self.headers)
 
         resp = req.json()

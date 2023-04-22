@@ -16,6 +16,12 @@ class Vars:
         self._dic = dic
         self._vars = l
 
+    def update(self, k, v):
+        if isinstance(v, AnilistType):
+            self._dic[k] = v.get_inner()
+        else:
+            self._dic[k] = v
+
     def _as_query(self):
         temp = {}
 

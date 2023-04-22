@@ -1,5 +1,6 @@
-from Anilist import QueryClient, Scheme
+from Anilist import QueryClient, Scheme, MutationClient
 from Anilist.anilist_types import AnilistMediaType
+from Anilist import Auth
 
 from Anilist.scheme import mediaScheme
 from Anilist.vars import Vars
@@ -11,6 +12,13 @@ class BaseTest(TestCase):
 
     def test_scheme(self):
         _ = Scheme._construct(Scheme().A.B(k='$3'), Scheme().A.B.C, Scheme().A.B.C(k="$4").D)
+
+    def test_auth(self):
+        auth = Auth.from_config_file("config.json")
+        a = MutationClient(auth, max_pages=10)
+
+        a.media_entry(103572).set_score(35.0)
+
     
     def test_query(self):
         q = QueryClient(max_pages=10)
