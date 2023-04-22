@@ -29,20 +29,26 @@ class BaseTest(TestCase):
             mediaScheme().coverImage.medium,
             
             # Search settings
-            
             per_page = 100,
             paginate = True, 
 
             # Query parameters
             userName="xxxAnn"
+
         )
 
         entry_query = q.media_entry()
         entry_query.search(
+            # Fields to Query
             Scheme().tags.id,
             Scheme().tags.name,
-            
-            type = AnilistMediaType('ANIME')
+
+            # Search settings
+
+            #Query parameters
+            type = AnilistMediaType('ANIME'),
+            search = "One Piece"
+
         )
         
         print(list_query.results_take_front())
