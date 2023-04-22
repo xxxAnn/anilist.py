@@ -1,2 +1,2 @@
 from .scheme import Scheme
-from .media_scheme import MediaScheme
+from .media_scheme import MediaScheme, mediaScheme, mediaListScheme, MediaListScheme

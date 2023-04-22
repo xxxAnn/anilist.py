@@ -1,64 +1,59 @@
-from Anilist.scheme import MediaScheme, Scheme
+from Anilist.scheme import *
 from Anilist.vars import Vars
 from Anilist.client.client import Client
-
-class MediaEntryQuery:
-
+from Anilist.query.query import Query
+class MediaEntryQuery(Query):
+    """
+    An interface for making Queries for media to the Anilist API
+    """
     def __init__(self, client: Client, languages=["english"], sizes=["extraLarge"]):
-
+        super().__init__()
         self._languages = languages
         self._sizes = sizes
         self._client = client
         self._results = []
 
         self.DEFAULT_QUERY = [
-            MediaScheme().id, 
-            *[MediaScheme().title[lang] for lang in self._languages], 
-            *[MediaScheme().coverImage[size] for size in self._sizes]
+            Scheme().id, 
+            *[Scheme().title[lang] for lang in self._languages], 
+            *[Scheme().coverImage[size] for size in self._sizes]
         ]
 
 
-    def _query(self, *schs: Scheme, vars, paginate=False, page=1, per_page=100):
+    def _query(self, *schs: Scheme, vars, head_sch, paginate=False, page=1, per_page=100):
         r = []
 
         if not paginate:
 
-            q = self._client._create_query(vars, *[sch._replace_head("media", "Media") for sch in schs])
+            q = self._client._create_query(vars, *schs, head_sch=head_sch)
             resp = self._client._request(q, vars._json)
 
             r.append(resp.Media)
 
         else:
 
-            head_sch = Scheme().Page(page = '$page', perPage = '$perPage')
             vars = Vars._merge(vars, Vars(page=page, perPage=per_page))
-            q = self._client._create_query(vars, *[sch._replace_head("Media", "media") for sch in schs], head_sch=head_sch)
+            q = self._client._create_query(vars, *schs, head_sch=Scheme._combine(Scheme().Page(page = '$page', perPage = '$perPage'), head_sch))
 
             r = self._client._page_request(q, vars, 'media')
         
         self._results = r
 
     def query(self, *schs: Scheme, vars, default=True, paginate=False, page=1, per_page=100):
+        # this is for interacting in the most direct way with the Internal API 
+        if default:
+            schs = list(schs)
+            schs.extend(self.DEFAULT_QUERY)
+
+        return self._query(*schs, vars=vars,  head_sch=Scheme(), paginate=paginate, page=page, per_page=per_page)
+    
+    def search(self, *schs: Scheme, default=True, per_page: int=100, page: int=1, paginate=False, **kwargs):
+        # the main way to interact with this object
+        vars = Vars(**kwargs)
 
         if default:
             schs = list(schs)
             schs.extend(self.DEFAULT_QUERY)
 
-        return self._query(*schs, vars=vars, paginate=paginate, page=page, per_page=per_page)
-
-    def results_take_all(self):
-        r = self._results
-        self._results = []
-        return r
-    
-    def results_take_front(self):
-        r = self._results[0]
-        self._results = self._results[1:]
-        return r
-    
-    def results_take_back(self):
-        r = self._results[-1]
-        self._results = self._results[:-1]
-        return r
-
-
+        head_sch = mediaScheme(**vars._as_query()) if paginate else MediaScheme(**vars._as_query())
+        return self._query(*schs, vars=vars, head_sch=head_sch, per_page=per_page, page=page, paginate=paginate)

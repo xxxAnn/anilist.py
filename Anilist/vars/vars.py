@@ -16,6 +16,14 @@ class Vars:
         self._dic = dic
         self._vars = l
 
+    def _as_query(self):
+        temp = {}
+
+        for k, v in self._dic.items():
+            temp[k] = f"${k}"
+
+        return temp
+
     @property
     def _names(self):
         return ', '.join(self._vars)

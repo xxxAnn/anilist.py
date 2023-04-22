@@ -1,7 +1,7 @@
 from Anilist import QueryClient, Scheme
 from Anilist.anilist_types import AnilistMediaType
 
-from Anilist.scheme import MediaScheme
+from Anilist.scheme import mediaScheme
 from Anilist.vars import Vars
 
 import logging
@@ -15,12 +15,22 @@ class BaseTest(TestCase):
     def test_query(self):
         q = QueryClient(max_pages=10)
 
-        q.media_list(username="xxxAnn", per_page=100).entries[0]
+        list_query = q.media_list(per_page=100)
+        list_query.search(
+            mediaScheme().coverImage.medium,
+
+            paginate=True, 
+            userName="xxxAnn"
+        )
+
         entry_query = q.media_entry()
-
-        entry_query.query(*[
-            MediaScheme(type='$mType').tags.id,
-            MediaScheme().tags.name
-        ], vars=Vars(mType=AnilistMediaType("ANIME")), paginate=True)
-
-        print(entry_query.results_take_all())
+        entry_query.search(
+            Scheme().tags.id,
+            Scheme().tags.name,
+            
+            type = AnilistMediaType('ANIME')
+        )
+        
+        print(list_query.results_take_front())
+        print('\n')
+        print(entry_query.results_take_front())

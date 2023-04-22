@@ -15,10 +15,9 @@ class QueryClient(Client):
     def _query_type(self):
         return "query"
 
-    def media_list(self, *, username, per_page: int=10, starting_page: int=1, languages=["english"], sizes=["extraLarge"]):
+    def media_list(self, *, per_page: int=10, starting_page: int=1, languages=["english"], sizes=["extraLarge"]):
         return MediaListQuery(
             client=self,
-            username=username, 
             per_page=per_page, 
             starting_page=starting_page, 
             languages=languages, 
