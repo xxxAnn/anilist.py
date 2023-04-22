@@ -10,6 +10,12 @@ from Anilist.vars.vars import Vars
 class QueryClient(Client):
 
     def __init__(self, level=logging.INFO, **kwargs):
+        """
+        Parameters
+        ----------
+        level : int
+            The logging level for this client
+        """
         Client.__init__(self, None, level, **kwargs)
 
     def _query_type(self):
