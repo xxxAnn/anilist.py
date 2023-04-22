@@ -8,7 +8,7 @@ class MediaListQuery(Query):
     """
     
     def __init__(self, client: Client, languages=["english"], sizes=["extraLarge"]):
-        super().__init__(client, 'mediaList', MediaListScheme, mediaListScheme, [
+        super().__init__(client, 'mediaList', 'MediaList', MediaListScheme, mediaListScheme, [
             mediaScheme().id, 
             *[mediaScheme().title[lang] for lang in languages], 
             *[mediaScheme().coverImage[size] for size in sizes]

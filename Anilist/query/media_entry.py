@@ -8,7 +8,7 @@ class MediaEntryQuery(Query):
     """
 
     def __init__(self, client: Client, languages=["english"], sizes=["extraLarge"]):
-        super().__init__(client, 'media', MediaScheme, mediaScheme, [
+        super().__init__(client, 'media', 'Media', MediaScheme, mediaScheme, [
             Scheme().id, 
             *[Scheme().title[lang] for lang in languages], 
             *[Scheme().coverImage[size] for size in sizes]

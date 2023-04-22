@@ -1,4 +1,4 @@
-from Anilist import QueryClient, Scheme, MutationClient
+from Anilist import QueryClient, Scheme, MutationClient, MediaScheme
 from Anilist.anilist_types import AnilistMediaType
 from Anilist import Auth
 

@@ -21,10 +21,10 @@ class Query:
         Returns the last element of the Query Result
     """
 
-    def __init__(self, client: Client, head_name, scha, schb, defa):
+    def __init__(self, client: Client, head_nama, head_namb, scha, schb, defa):
         self._results = []
         self._client = client
-        self._head_name = head_name
+        self._head_name = (head_nama, head_namb)
         self._base_schs = (scha, schb)
 
         self.DEFAULT_QUERY = defa
@@ -37,14 +37,14 @@ class Query:
             q = self._client._create_query(vars, *schs, head_sch=head_sch)
             resp = self._client._request(q, vars)
 
-            r.append(resp.Media)
+            r.append(resp[self._head_name[1]])
 
         else:
 
             vars = Vars._merge(vars, Vars(page=page, perPage=per_page))
             q = self._client._create_query(vars, *schs, head_sch=Scheme._combine(Scheme().Page(page = '$page', perPage = '$perPage'), head_sch))
 
-            r = self._client._page_request(q, vars, self._head_name)
+            r = self._client._page_request(q, vars, self._head_name[0])
         
         self._results = r
 
