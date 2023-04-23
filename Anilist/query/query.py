@@ -14,10 +14,10 @@ class Query:
     :param client: A :class:`~Anilist.client.QueryClient` to make requests
     :type client: :class:`~.client.Client`
         
-    :param head_nama: Name of the head :class:`~.scheme.Scheme` when in a Page object
+    :param head_name1: Name of the head :class:`~.scheme.Scheme` when in a Page object
     :type head_nama: :class:`~str`
 
-    :param head_namb: Name of the head :class:`~.scheme.Scheme` when in a Query object
+    :param head_name2: Name of the head :class:`~.scheme.Scheme` when in a Query object
     :type head_namb: :class:`~str`
 
     :param defa: List of default :class:`~.scheme.Scheme`\s 
@@ -48,11 +48,11 @@ class Query:
         result = media_search.results_take_one()
     """
 
-    def __init__(self, client: Client, head_nama, head_namb, defa):
+    def __init__(self, client: Client, head_name1, head_name2, defa):
         self._results = []
         self._client = client
-        self._head_name = (head_nama, head_namb)
-        self._base_schs = (Scheme()[head_namb], Scheme()[head_nama])
+        self._head_name = (head_name1, head_name2)
+        self._base_schs = (Scheme()[head_name2], Scheme()[head_name1])
 
         self.DEFAULT_QUERY = defa
 
