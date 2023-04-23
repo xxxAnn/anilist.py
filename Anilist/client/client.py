@@ -34,7 +34,7 @@ class Client:
 
         return temp
 
-    def _request(self, query, vars: Vars):
+    def _request(self, query: str, vars: Vars):
 
         log = AnilistLogger()
         log.info(f"Sending request to URI {self.URI} with headers {self.headers}")
@@ -55,8 +55,8 @@ class Client:
         obj = AnilistObject(resp["data"])
         return obj
         
-    def _create_query(self, vars, *schs, head_sch=None):
-        schs = list(schs) if head_sch is None else [Scheme._combine(head_sch, sch) for sch in schs]
+    def _create_query(self, vars, *schs: Scheme, head_sch: Scheme=None):
+        schs = list(schs) if head_sch is None else head_sch.sub_schemes(*schs)
         if vars._names == "":
             return """
             {} {{

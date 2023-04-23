@@ -1,6 +1,33 @@
 from Anilist.anilist_types import AnilistType
 
 class Vars:
+    """
+    Set of request variables that can be used in Schemes
+    Each variable can be referenced by Schemes by prefixing their name with '$'
+
+    Example::
+        
+        client = QueryClient()
+        # $type and $search
+        # reference the Vars' 'type' and 'search' kwargs
+        schs = Scheme().Media(type="$type", search="$search").sub_schemes(
+            Scheme().id,
+            Scheme().title.english
+        )
+        vars = Vars(type=AnilistMediaType("ANIME"), search="One Piece")
+        result = client._request(client._create_query(vars, *schs), vars)
+
+        ## This is equivalent to using the following shortcut:
+        media_search = QueryClient().media_entry()
+        media_search.search(
+            Scheme().id,
+            Scheme().title.english,
+
+            type=AnilistMediaType("ANIME"),
+            search="One Piece"
+        )
+        result = media_search.results_take_one()
+    """
     
     def __init__(self, **kwargs):
         dic = dict(kwargs)

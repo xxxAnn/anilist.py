@@ -8,10 +8,7 @@ from Anilist.vars import Vars
 import logging
 from unittest import TestCase
 
-class BaseTest(TestCase):
-
-    def test_scheme(self):
-        _ = Scheme._construct(Scheme().A.B(k='$3'), Scheme().A.B.C, Scheme().A.B.C(k="$4").D)
+class ExternalsTest(TestCase):
 
     def test_auth(self):
         auth = Auth.from_config_file("config.json")

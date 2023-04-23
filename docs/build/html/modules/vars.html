@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Vars Module &#8212; Anilist.py  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Utils Module" href="utils.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-Anilist.vars">
+<span id="vars-module"></span><h1>Vars Module<a class="headerlink" href="#module-Anilist.vars" title="Permalink to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="Anilist.vars.Vars">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Anilist.vars.</span></span><span class="sig-name descname"><span class="pre">Vars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#Anilist.vars.Vars" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set of request variables that can be used in Schemes
+Each variable can be referenced by Schemes by prefixing their name with ‘$’</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">client</span> <span class="o">=</span> <span class="n">QueryClient</span><span class="p">()</span>
+<span class="c1"># $type and $search</span>
+<span class="c1"># reference the Vars&#39; &#39;type&#39; and &#39;search&#39; kwargs</span>
+<span class="n">schs</span> <span class="o">=</span> <span class="n">Scheme</span><span class="p">()</span><span class="o">.</span><span class="n">Media</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;$type&quot;</span><span class="p">,</span> <span class="n">search</span><span class="o">=</span><span class="s2">&quot;$search&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">sub_schemes</span><span class="p">(</span>
+    <span class="n">Scheme</span><span class="p">()</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+    <span class="n">Scheme</span><span class="p">()</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">english</span>
+<span class="p">)</span>
+<span class="nb">vars</span> <span class="o">=</span> <span class="n">Vars</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="n">AnilistMediaType</span><span class="p">(</span><span class="s2">&quot;ANIME&quot;</span><span class="p">),</span> <span class="n">search</span><span class="o">=</span><span class="s2">&quot;One Piece&quot;</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">_request</span><span class="p">(</span><span class="n">client</span><span class="o">.</span><span class="n">_create_query</span><span class="p">(</span><span class="nb">vars</span><span class="p">,</span> <span class="o">*</span><span class="n">schs</span><span class="p">),</span> <span class="nb">vars</span><span class="p">)</span>
+
+<span class="c1">## This is equivalent to using the following shortcut:</span>
+<span class="n">media_search</span> <span class="o">=</span> <span class="n">QueryClient</span><span class="p">()</span><span class="o">.</span><span class="n">media_entry</span><span class="p">()</span>
+<span class="n">media_search</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
+    <span class="n">Scheme</span><span class="p">()</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+    <span class="n">Scheme</span><span class="p">()</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">english</span><span class="p">,</span>
+
+    <span class="nb">type</span><span class="o">=</span><span class="n">AnilistMediaType</span><span class="p">(</span><span class="s2">&quot;ANIME&quot;</span><span class="p">),</span>
+    <span class="n">search</span><span class="o">=</span><span class="s2">&quot;One Piece&quot;</span>
+<span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">media_search</span><span class="o">.</span><span class="n">results_take_one</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Anilist.py</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="auth.html">Auth Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="client.html">Client Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="query.html">Query Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scheme.html">Scheme Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">Utils Module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Vars Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Anilist.vars.Vars"><code class="docutils literal notranslate"><span class="pre">Vars</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="utils.html" title="previous chapter">Utils Module</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Ann M-D.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 6.1.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../_sources/modules/vars.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

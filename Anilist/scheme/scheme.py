@@ -1,8 +1,67 @@
 class Scheme:
+    """    
+    The main way to select fields to query in Anilist requests
+    
+    For example the following list of Schemes:
+
+    .. code-block:: python
+
+        Scheme().FieldA(id='$idVariable')
+            .sub_schemes(
+                Scheme().FieldB, 
+                Scheme().FieldB.FieldC, 
+                Scheme().FieldD
+            )
+
+    will be parsed into a query by the :class:`~.client.Client` as::
+    
+        FieldA (id: $idVariable) {
+            FieldB {
+                FieldC
+            }
+            FieldD
+        }
+    
+    .. note::
+        Schemes are parsed by :meth:`Client._create_query() <.client.Client._create_query>`
+        Which is automatically called by :meth:`Query.search() <.query.Query.search>`
+
+        Depending on the query parameters and the client type this will be wrapped into either a `query { }` block, a `query { Page { } }` block or a `mutation { }` block
+
+    """
 
     def __init__(self):
         self._layers = []
         self._up = {}
+
+    def sub_schemes(self, *schs):
+        """Appends this :class:`~.Scheme` at the beginning of all of the :class:`~.Scheme`\s provided and returns them
+
+        :param schs: List of :class:`~.Scheme`\s to append to this one
+        :type schs: tuple[:class:`~.Scheme`], optional
+
+        Example: 
+
+        .. code-block:: python
+
+            Scheme().FieldA.sub_schemes(
+                Scheme().FieldB
+                Scheme().FieldB.FieldC
+                Scheme().FieldD
+            )
+
+            # is equivalent to
+
+            [
+                Scheme().FieldA,
+                Scheme().FieldA.FieldB
+                Scheme().FieldA.FieldB.FieldC
+                Scheme().FieldA.FieldD
+            ]
+            
+        """
+        return [Scheme._combine(self, sch) for sch in schs] + [self]
+
 
     def __getattr__(self, k):
         return self[k]
